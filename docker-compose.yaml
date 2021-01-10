@@ -1,0 +1,35 @@
+version: "3.8"
+
+# Ada bugs di koneksi ke postgres SQL
+# https://stackoverflow.com/questions/53170709/docker-compose-could-not-open-directory-permisson-denied
+services:
+  db:
+    # build:
+    #   context: ./
+    #   dockerfile: Dockerfile.db
+    image: postgres:12
+    container_name: postgres-db-container
+    volumes:
+      - ./docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d:z
+    environment:
+      POSTGRES_PASSWORD: hellopassword1234
+      POSTGRES_DB: notesdb
+  api:
+    build:
+      context: ./
+      dockerfile: Dockerfile.dev
+    container_name: express-nodes-container
+    volumes:
+      - /usr/app/node_modules
+      - ./:/usr/app
+    ports:
+      - 3000:3000 ## <host system port>:<container port>
+    environment:
+      DB_CONNECTION: pg
+      DB_HOST: db ## same as the database service name
+      DB_PORT: 5432
+      DB_USER: postgres
+      DB_DATABASE: notesdb
+      DB_PASSWORD: hellopassword1234
+    depends_on:
+      - db
