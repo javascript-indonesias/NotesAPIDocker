@@ -7,10 +7,13 @@ services:
     # build:
     #   context: ./
     #   dockerfile: Dockerfile.db
-    image: postgres:12
+    image: postgres:12-alpine
     container_name: postgres-db-container
     volumes:
+      # Jangan lupa untuk jalankan chmod 777 folder volume di host nya
+      # Setelah docker jalan, chmod docker volume agar bisa dipakai oleh container
       - ./docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d:z
+      - ./datadb:/var/lib/postgresql/data:z
     environment:
       POSTGRES_PASSWORD: hellopassword1234
       POSTGRES_DB: notesdb
