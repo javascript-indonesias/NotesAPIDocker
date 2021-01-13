@@ -3,8 +3,8 @@
   "main": "bin/www",
   "scripts": {
     "knex": "knex",
-    "start": "cross-env NODE_ENV=production node bin/www",
-    "dev": "cross-env NODE_ENV=development nodemon bin/www",
+    "start": "cross-env NODE_ENV=production node bin/www.js",
+    "dev": "cross-env NODE_ENV=development nodemon bin/www.js",
     "db:migrate": "knex migrate:latest",
     "db:refresh": "knex migrate:rollback --all; knex migrate:latest",
     "lint": "eslint --ext .js --cache --fix --ignore-path .gitignore .",
